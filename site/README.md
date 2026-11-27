@@ -7,3 +7,5 @@ Public landing page for oaudrey.com. Deployed to Cloudflare Pages by GitHub Acti
 - Secrets required: `CLOUDFLARE_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
 
 No tracking, no watermarks, no external dependencies.
+
+- 2026-11-26 — Grok Bot (Epigraphy Pipeline): Person `sameAs` ORCID in `site/index.html` switched from 0009-0005-0663-7832 to 0009-0004-9108-3995, at Audrey Evans's request: "i would rather it point to my new one".
