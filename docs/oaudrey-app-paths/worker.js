@@ -10,7 +10,7 @@ const GH = 'https://midnghtsapphire.github.io';
 const APPS = {
   'deck-to-video.oaudrey.com':    { origin: 'https://deck2vid-fenbmfwl.manus.space', prefix: '', block: ['/api/'] },
   'ecoanchor.oaudrey.com':        { origin: GH, prefix: '/eco-anchor-site' },
-  'openaudrey.oaudrey.com':       { origin: GH, prefix: '/openaudrey', keepPrefix: true },
+  'openaudrey.oaudrey.com':       { origin: 'https://openaudrey-site.pages.dev', prefix: '/openaudrey', keepPrefix: true },
   'sakura.oaudrey.com':           { origin: GH, prefix: '/Sakura_Property_Scout' },
   'project-face.oaudrey.com':     { origin: GH, prefix: '/project-face', keepPrefix: true, home: '/project-face/' },
   'meetaudrey.oaudrey.com':       { origin: GH, prefix: '/meetaudreyevans-website' },
