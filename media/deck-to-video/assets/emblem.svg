@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="t">
+  <title id="t">Deck-to-Video Kit emblem: a slide card that becomes a film frame, with an approval check</title>
+  <!-- Layer 1: slate disc (deck primary #1E3A5F) -->
+  <circle cx="512" cy="512" r="512" fill="#1E3A5F"/>
+  <!-- Layer 2: white slide card with the deck's slate tab motif -->
+  <g transform="translate(212 262)">
+    <rect x="0" y="12" width="600" height="440" rx="44" fill="#0F2440" opacity="0.35"/>
+    <rect x="0" y="0" width="600" height="440" rx="44" fill="#FFFFFF"/>
+    <rect x="0" y="0" width="200" height="26" rx="13" fill="#1E3A5F"/>
+    <rect x="0" y="13" width="200" height="13" fill="#1E3A5F"/>
+    <!-- Layer 3: play triangle (the slide becomes motion) -->
+    <path d="M250 140 L250 300 L384 220 Z" fill="#1E3A5F" stroke="#1E3A5F" stroke-width="22" stroke-linejoin="round"/>
+  </g>
+  <!-- Layer 4: emerald approval check (deck success #059669) -->
+  <circle cx="742" cy="712" r="150" fill="#059669" stroke="#1E3A5F" stroke-width="22"/>
+  <path d="M672 714 L724 766 L818 664" fill="none" stroke="#FFFFFF" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
