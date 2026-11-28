@@ -179,3 +179,12 @@ Every subdomain was opened in headless Chromium: page, CSS and scripts load, no 
 ### Update 2026-11-28, 10:22 AM America/Denver: visitor counter on all sites
 
 Audrey chose "Turn on Cloudflare's visitor counter on all the sites" (answer: "Both"). The opt-out (`Cache-Control: no-transform`) on Worker `oaudrey-app-paths` was removed, so the zone's free, cookieless Cloudflare Web Analytics beacon is injected on the nine subdomains the same way it already is on oaudrey.com and Peekabyss. No other tracking was added. Payment buttons were not changed. Redeployed 2026-11-28 10:22 AM America/Denver. Verified: each subdomain and the apex return the `cloudflareinsights.com` beacon once, and no Manus, Plausible, gtag or similar scripts.
+
+### Update 2026-11-28, mid-morning America/Denver: search engines and Kit media
+
+Audrey said "Yes, let Google list my sites" and "Yes, copy the Kit's media off Manus" (2026-11-28).
+
+- `site/robots.txt` is now `Allow: /` with a sitemap at `https://oaudrey.com/sitemap.xml`. The same allow policy is served on each app subdomain (`/robots.txt` and `/sitemap.xml` from Worker `oaudrey-app-paths`). The Apps tab footer no longer says search engines are asked not to index the site.
+- The Deck-to-Video video, four preview stills, share image and icons were copied off Manus/CloudFront into `media/deck-to-video/` (commit 31606300061e8ae1c6ff78a77ee1614575bbccab). Worker `oaudrey-app-paths` serves `/manus-storage/*` and the Kit `/assets/*` from that copy. The Open Graph image no longer points at files.manuscdn.com. Buy buttons were not changed.
+- Backups: `/workspace/webforge/backup-deck-to-video-media-2026-11-28/`.
+- Cloudflare's visitor counter stays on. A separate job will add Gumroad and PayPal checkout; the button HTML is still the proxied Manus page (see the PR comment).
