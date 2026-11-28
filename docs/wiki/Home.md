@@ -25,7 +25,7 @@ Documentation of oaudrey.com and the sites attached to it, written from live pag
 ## Everything else
 - [Index](Index.md): table of every page with URL, source and provenance.
 - Source repository: <https://github.com/midnghtsapphire/oaudrey-pages>. Plan doc: [`docs/apps-tab-plan-2026-11-27.md`](https://github.com/midnghtsapphire/oaudrey-pages/blob/webforge/apps-tab/docs/apps-tab-plan-2026-11-27.md). Open PR for the Apps tab: <https://github.com/midnghtsapphire/oaudrey-pages/pull/5>.
-- Site-wide facts as stated by the sites: oaudrey.com and the app-path hosts ask search engines not to index them (`robots.txt` `Disallow: /`); none of the fetched pages include analytics or tracking scripts.
+- Site-wide facts as stated by the sites: oaudrey.com and the app-path hosts ask search engines not to index them (`robots.txt` `Disallow: /`); the pages' own HTML had no analytics or tracking scripts when fetched; since 2026-11-28 Cloudflare Web Analytics (free, cookie-free) is added at the zone level to oaudrey.com and its subdomains.
 - Not documented here (listed as "Coming soon" on `/apps`, not live): Affiliate Hub, AI Video Toolkit, Screen Recorder Finder, Audit site, Rising Aloha, GrowlingEyes, Reese Reviews, Neurooz, MindMappr, Sessiono. The GitHub Free Toolkit is a Gumroad listing, not a site hosted here, and was not fetched.
 
 ## How to read these pages
