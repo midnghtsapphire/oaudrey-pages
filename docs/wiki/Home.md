@@ -14,7 +14,7 @@ Documentation of oaudrey.com and the sites attached to it, written from live pag
 ## Subdomains (served by the `oaudrey-app-paths` Worker)
 - [Deck-to-Video Kit](Deck-to-Video-Kit.md) — <https://deck-to-video.oaudrey.com>
 - [Freedom Angel Corps](Freedom-Angel-Corps.md) — <https://fac.oaudrey.com>
-- [OpenAudrey](OpenAudrey.md) — <https://openaudrey.oaudrey.com>
+- [OpenAudrey](OpenAudrey.md) — <https://oaudrey.com/openaudrey/>
 - [EcoAnchor](EcoAnchor.md) — <https://ecoanchor.oaudrey.com>
 - [Sakura Property Scout](Sakura-Property-Scout.md) — <https://sakura.oaudrey.com>
 - [Project Face](Project-Face.md) — <https://project-face.oaudrey.com>

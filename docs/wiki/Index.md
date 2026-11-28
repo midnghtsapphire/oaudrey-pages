@@ -11,7 +11,7 @@ Every page in this wiki. "Last verified" is the date of the live fetch. All 14 U
 | [Peekabyss terms of service](Peekabyss-Terms.md) | https://oaudrey.com/peekabyss/terms | not in this repo | 2026-11-28 | live fetch + repo read |
 | [Deck-to-Video Kit](Deck-to-Video-Kit.md) | https://deck-to-video.oaudrey.com | `docs/oaudrey-app-paths/worker.js` (host mapping); origin content lives in its own site | 2026-11-28 | live fetch + repo read |
 | [Freedom Angel Corps](Freedom-Angel-Corps.md) | https://fac.oaudrey.com | `docs/oaudrey-app-paths/worker.js` (host mapping); origin content lives in its own site | 2026-11-28 | live fetch + repo read |
-| [OpenAudrey](OpenAudrey.md) | https://openaudrey.oaudrey.com | `docs/oaudrey-app-paths/worker.js` (host mapping); origin content lives in its own site | 2026-11-28 | live fetch + repo read |
+| [OpenAudrey](OpenAudrey.md) | https://oaudrey.com/openaudrey/ | `docs/oaudrey-pages/worker.js` (path on oaudrey.com); origin is the `openaudrey-site` Pages project; `openaudrey.oaudrey.com` 301-redirects here | 2026-11-28 | live fetch + repo read |
 | [EcoAnchor](EcoAnchor.md) | https://ecoanchor.oaudrey.com | `docs/oaudrey-app-paths/worker.js` (host mapping); origin content lives in its own site | 2026-11-28 | live fetch + repo read |
 | [Sakura Property Scout](Sakura-Property-Scout.md) | https://sakura.oaudrey.com | `docs/oaudrey-app-paths/worker.js` (host mapping); origin content lives in its own site | 2026-11-28 | live fetch + repo read |
 | [Project Face](Project-Face.md) | https://project-face.oaudrey.com | `docs/oaudrey-app-paths/worker.js` (host mapping); origin content lives in its own site | 2026-11-28 | live fetch + repo read |

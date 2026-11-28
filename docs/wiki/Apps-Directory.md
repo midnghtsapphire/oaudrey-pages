@@ -8,7 +8,7 @@
 | Source in repo | `site/apps/index.html` (branch `webforge/apps-tab`, PR #5) |
 
 ## What the page shows
-- Sections on the page: Products (Deck-to-Video Kit; GitHub Free Toolkit on Gumroad), On oaudrey.com (Exposure audit; Peekabyss), More sites (Freedom Angel Corps, OpenAudrey, EcoAnchor, Sakura Property Scout, Project Face, Meet Audrey Evans, soul2bowl, Pretty Portions), and a Coming soon list.
+- Sections on the page: Products (Deck-to-Video Kit; GitHub Free Toolkit on Gumroad), On oaudrey.com (Exposure audit; Peekabyss; OpenAudrey), More sites (Freedom Angel Corps, EcoAnchor, Sakura Property Scout, Project Face, Meet Audrey Evans, soul2bowl, Pretty Portions), and a Coming soon list.
 - Coming soon list on the page: Affiliate Hub, AI Video Toolkit, Screen Recorder Finder, Audit site, Rising Aloha, GrowlingEyes, Reese Reviews, Neurooz, MindMappr, Sessiono.
 - The page footer states: no tracking pixels, no watermarks, and search engines are asked not to index the site.
 - The page is live even though PR #5 is still an open draft; the plan doc says the live Worker is updated separately from merging.

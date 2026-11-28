@@ -10,7 +10,7 @@ const GH = 'https://midnghtsapphire.github.io';
 const APPS = {
   'deck-to-video.oaudrey.com':    { origin: 'https://deck2vid-fenbmfwl.manus.space', prefix: '', block: ['/api/'] },
   'ecoanchor.oaudrey.com':        { origin: GH, prefix: '/eco-anchor-site' },
-  'openaudrey.oaudrey.com':       { origin: 'https://openaudrey-site.pages.dev', prefix: '/openaudrey', keepPrefix: true },
+  // openaudrey.oaudrey.com: 301 to https://oaudrey.com/openaudrey/* (see fetch). Do not delete the DNS record.
   'sakura.oaudrey.com':           { origin: GH, prefix: '/Sakura_Property_Scout' },
   'project-face.oaudrey.com':     { origin: GH, prefix: '/project-face', keepPrefix: true, home: '/project-face/' },
   'meetaudrey.oaudrey.com':       { origin: GH, prefix: '/meetaudreyevans-website' },
@@ -155,6 +155,15 @@ async function serveOurMedia(req, u) {
 export default {
   async fetch(req) {
     const u = new URL(req.url);
+    // Audrey, 2026-11-28: "It should be oaudrey/openaudrey as a sub tab".
+    // Keep the subdomain and its DNS; send every path to the new tab, preserving the path.
+    if (u.hostname === 'openaudrey.oaudrey.com') {
+      let path = u.pathname || '/';
+      if (path === '/' || path === '') path = '/openaudrey/';
+      else if (!path.startsWith('/openaudrey')) path = '/openaudrey' + (path.startsWith('/') ? path : '/' + path);
+      if (path === '/openaudrey') path = '/openaudrey/';
+      return Response.redirect('https://oaudrey.com' + path + u.search, 301);
+    }
     const app = APPS[u.hostname];
     if (!app) return text('Not found');
     if (req.method !== 'GET' && req.method !== 'HEAD') return new Response('Method not allowed', { status: 405, headers: { allow: 'GET, HEAD' } });
