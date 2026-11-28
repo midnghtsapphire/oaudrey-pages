@@ -1,0 +1,59 @@
+# IndexRunner: MkDocs config for the oaudrey.com wiki.
+# Builds docs/wiki/ (the same Markdown reviewed in PR #6) into wiki-site/.
+# No analytics, no tracking plugins, no external fonts, no affiliate links.
+site_name: oaudrey.com wiki
+site_description: Documentation of oaudrey.com and the sites attached to it.
+site_url: https://wiki.oaudrey.com/
+repo_url: https://github.com/midnghtsapphire/oaudrey-pages
+repo_name: midnghtsapphire/oaudrey-pages
+docs_dir: docs/wiki
+site_dir: wiki-site
+use_directory_urls: true
+
+# _Sidebar.md exists for GitHub's built-in wiki; MkDocs builds its own nav below.
+exclude_docs: |
+  _Sidebar.md
+
+theme:
+  name: material
+  font: false            # system fonts only: no requests to Google Fonts
+  language: en
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+  # no `extra.analytics`, no `extra.social`, no `extra.consent`
+
+extra:
+  generator: false       # drop the "Made with Material for MkDocs" footer link
+
+plugins:
+  - search               # built-in, runs in the browser, sends nothing anywhere
+  - redirects:
+      redirect_maps:
+        index.md: Home.md   # wiki.oaudrey.com/ -> Home
+
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: Home.md
+  - Index: Index.md
+  - On oaudrey.com:
+      - oaudrey.com landing page: Apex-Landing-Page.md
+      - oaudrey.com/apps: Apps-Directory.md
+      - Peekabyss: Peekabyss.md
+      - Peekabyss privacy policy: Peekabyss-Privacy.md
+      - Peekabyss terms of service: Peekabyss-Terms.md
+  - Subdomains:
+      - Deck-to-Video Kit: Deck-to-Video-Kit.md
+      - Freedom Angel Corps: Freedom-Angel-Corps.md
+      - OpenAudrey: OpenAudrey.md
+      - EcoAnchor: EcoAnchor.md
+      - Sakura Property Scout: Sakura-Property-Scout.md
+      - Project Face: Project-Face.md
+      - Meet Audrey Evans (Life Hub): Meet-Audrey-Evans.md
+      - soul2bowl: soul2bowl.md
+      - Pretty Portions: Pretty-Portions.md
