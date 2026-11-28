@@ -1,6 +1,7 @@
 # IndexRunner: MkDocs config for the oaudrey.com wiki.
 # Builds docs/wiki/ (the same Markdown reviewed in PR #6) into wiki-site/.
-# No analytics, no tracking plugins, no external fonts, no affiliate links.
+# No analytics or tracking plugins here, no external fonts, no affiliate links.
+# Cloudflare Web Analytics is injected by the Cloudflare zone, not by this build.
 site_name: oaudrey.com wiki
 site_description: Documentation of oaudrey.com and the sites attached to it.
 site_url: https://wiki.oaudrey.com/
