@@ -64,8 +64,9 @@ export default {
       html = html.split(app.origin + p).join(publicBase + (app.keepPrefix ? p : ''));
       if (!p) html = html.split(app.origin).join(publicBase);
       out.delete('content-length'); out.delete('etag'); out.delete('content-range');
-      // no-transform stops Cloudflare's automatic Web Analytics beacon from being injected (no analytics rule).
-      out.set('cache-control', 'public, max-age=300, no-transform');
+      // 2026-11-28 WebForge: Audrey chose "Turn on Cloudflare's visitor counter on all the sites" (Both).
+      // The previous no-transform opted these subdomains out of the zone's free, cookieless Web Analytics. Removed.
+      out.set('cache-control', 'public, max-age=300');
       return new Response(html, { status: 200, headers: out });
     }
     return new Response(req.method === 'HEAD' ? null : r.body, { status: r.status, headers: out });

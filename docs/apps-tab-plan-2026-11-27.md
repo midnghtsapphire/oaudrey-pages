@@ -175,3 +175,7 @@ Every subdomain was opened in headless Chromium: page, CSS and scripts load, no 
 - Backups: `/workspace/webforge/backup-oaudrey-pages-2026-11-28/` (previous `oaudrey-pages` Worker source and settings, all 13 DNS records, routes and domains before this work).
 - Subdomain: delete its custom domain under Workers > `oaudrey-app-paths` > Domains & Routes (its DNS record goes with it).
 - Apex: re-upload `oaudrey-pages.worker.js` from the backup folder.
+
+### Update 2026-11-28, 10:22 AM America/Denver: visitor counter on all sites
+
+Audrey chose "Turn on Cloudflare's visitor counter on all the sites" (answer: "Both"). The opt-out (`Cache-Control: no-transform`) on Worker `oaudrey-app-paths` was removed, so the zone's free, cookieless Cloudflare Web Analytics beacon is injected on the nine subdomains the same way it already is on oaudrey.com and Peekabyss. No other tracking was added. Payment buttons were not changed. Redeployed 2026-11-28 10:22 AM America/Denver. Verified: each subdomain and the apex return the `cloudflareinsights.com` beacon once, and no Manus, Plausible, gtag or similar scripts.
