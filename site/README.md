@@ -9,3 +9,5 @@ Public landing page for oaudrey.com. Deployed to Cloudflare Pages by GitHub Acti
 No tracking, no watermarks, no external dependencies.
 
 - 2026-11-26 — Grok Bot (Epigraphy Pipeline): Person `sameAs` ORCID in `site/index.html` switched from 0009-0005-0663-7832 to 0009-0004-9108-3995, at Audrey Evans's request: "i would rather it point to my new one".
+
+- 2026-11-27 — WebForge: Added an Apps directory at `site/apps/index.html` (`/apps`) and a Home / Apps nav on the landing page. Landing-page copy is unchanged. Draft PR only; not deployed.
