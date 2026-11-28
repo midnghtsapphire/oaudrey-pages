@@ -35,6 +35,10 @@
   .soon li{padding:14px 0;border-bottom:1px solid var(--line);color:var(--muted)}
   .soon strong{color:var(--text)}
   .note{font-size:13px;color:#5e6c84}
+  .subnav{margin-top:20px}
+  .subnav a{color:var(--text);text-decoration:none;margin-right:18px;font-weight:600;font-size:14px}
+  .subnav a:hover,.subnav a[aria-current="page"]{color:var(--amber)}
+  .badge{color:var(--amber);text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:700}
   footer{padding:40px 0;color:var(--muted);font-size:14px}
 </style>
 </head>
@@ -45,6 +49,10 @@
   <p class="eyebrow">Apps</p>
   <h1>Apps and sites, in one place.</h1>
   <p class="lead">A directory of work that is already online. The security landing page stays at oaudrey.com. More apps will be added here as they go live on this domain.</p>
+  <nav class="subnav" aria-label="Apps sections">
+    <a href="/apps" aria-current="page">Directory</a>
+    <a href="/apps/music/">Music Tools</a>
+  </nav>
 </section>
 
 <section class="wrap">
@@ -81,6 +89,11 @@
       <h3>OpenAudrey</h3>
       <p>Umbrella brand identity for the business portfolio. A project of Freedom Angel Corp.</p>
       <a class="btn" href="/openaudrey/">Open OpenAudrey</a>
+    </article>
+    <article class="card">
+      <h3>Music Tools</h3>
+      <p>Song tools, including an AI-artifact song scrubber. A free in-browser version is coming.</p>
+      <a class="btn" href="/apps/music/">Open Music Tools</a>
     </article>
   </div>
 </section>
@@ -145,6 +158,6 @@
   <p class="note">No watermarks. Search engines may list these pages. Cloudflare’s cookieless visitor counter is on.</p>
 </section>
 
-<footer><div class="wrap">Audrey Walter-Evans · Global Fusion Digest · <a href="mailto:hello@oaudrey.com">hello@oaudrey.com</a> · <a href="/">Home</a> · <a href="/apps">Apps</a> · <a href="/openaudrey/">OpenAudrey</a> · <a href="https://wiki.oaudrey.com">Wiki</a></div></footer>
+<footer><div class="wrap">Audrey Walter-Evans · Global Fusion Digest · <a href="mailto:hello@oaudrey.com">hello@oaudrey.com</a> · <a href="/">Home</a> · <a href="/apps">Apps</a> · <a href="/apps/music/">Music Tools</a> · <a href="/openaudrey/">OpenAudrey</a> · <a href="https://wiki.oaudrey.com">Wiki</a></div></footer>
 </body>
 </html>
