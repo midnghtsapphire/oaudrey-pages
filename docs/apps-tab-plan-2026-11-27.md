@@ -128,3 +128,50 @@ Repo: `midnghtsapphire/oaudrey-pages`, branch `webforge/apps-tab`.
 5. For apps still on github.io or a random Netlify name, do you want them moved under oaudrey.com paths later (free, after a separate yes), or is linking out from `/apps` enough for now?
 6. Paths or subdomains for those later moves? Paths are recommended because they need no DNS change.
 7. May this draft PR be merged and the `/apps` page published? Nothing will go live until you say yes.
+
+---
+
+## Update 2026-11-28 (WebForge): approved, deployed, subdomains added
+
+### Audrey's approvals (2026-11-28, her words, verified in her answer cards)
+1. "Yes, put the Apps tab live". 2. "Keep all the sites on the list". 3. Meet Audrey: she skipped it, so one page is shown. 4. "Show Rising Aloha as coming soon". 5. "Yes, add the Deck-to-Video Kit and Gumroad toolkit". 6. "Yes, move each site to its own oaudrey.com address" (free only). Then: "Do sub domains off oaudrey now i need slavery sellable product up now", and "Put the Deck-to-Video Kit up first".
+She asked for subdomains (not paths), so paths in section 2 above were replaced by subdomains below.
+
+### Live
+| Address | Origin it serves | Status |
+|---|---|---|
+| https://oaudrey.com/apps | Worker `oaudrey-pages` (pinned to this PR's commit) | 200 |
+| https://deck-to-video.oaudrey.com/ | Deck-to-Video Kit page on Manus hosting (see notes) | 200, first product up |
+| https://fac.oaudrey.com/ | freedomangelcorps.com | 200 |
+| https://openaudrey.oaudrey.com/ | github.io/openaudrey | 200 |
+| https://ecoanchor.oaudrey.com/ | github.io/eco-anchor-site | 200 |
+| https://sakura.oaudrey.com/ | github.io/Sakura_Property_Scout | 200 |
+| https://project-face.oaudrey.com/project-face/ | github.io/project-face (single-page app that needs its `/project-face/` base path; `/` redirects there) | 200 |
+| https://meetaudrey.oaudrey.com/ | github.io/meetaudreyevans-website ("Life Hub") | 200 |
+| https://soul2bowl.oaudrey.com/ | github.io/soul2bowl | 200 |
+| https://pretty-portions.oaudrey.com/ | Netlify site (see notes) | 200 |
+
+Every subdomain was opened in headless Chromium: page, CSS and scripts load, no failed requests except an optional `checkout.json` on the Deck page (404 by design).
+
+### How it works ($0)
+- One new Worker, `oaudrey-app-paths` (source: `/workspace/webforge/oaudrey-app-paths/worker.js`), reverse-proxies each subdomain to its origin. GET/HEAD only, no cookies, no analytics. Tracking scripts found in an origin page (Manus analytics, Plausible, Manus editor badge) are removed from the proxied copy. Cloudflare's own Web Analytics beacon is switched off for these pages with `Cache-Control: no-transform`.
+- Each subdomain is a Worker custom domain on the free plan. Cloudflare added one new proxied DNS record per hostname. No existing DNS record, route or Worker was changed.
+- `robots.txt` on every subdomain is `Disallow: /`, the same as oaudrey.com, until Audrey opens the site to search.
+- The apex Worker `oaudrey-pages` keeps serving the same files. Only its source was repointed from `main` to this PR's commit SHA so `/apps` and the Home/Apps nav appear without merging. Everything else (www redirect, `/lander` redirect, content types, headers, `/peekabyss*` routes) is unchanged.
+
+### Link-outs (not proxied) and why
+- **GitHub Free Toolkit** (https://angelreporter.gumroad.com/l/fpxeyn): a Gumroad store page and checkout; Gumroad should stay on its own domain.
+- **Rising Aloha**: shown as "coming soon" per Audrey; risingaloha.com is only a Squarespace placeholder.
+- **Audrey Evans App Hub** (github.io/Meetaudreyevans/): not listed. Audrey skipped the choice, so only the Life Hub is shown; the App Hub is labelled "Testing Hub" on its own page. Add it later if she wants both.
+- Still "coming soon" on `/apps`: Affiliate Hub, AI Video Toolkit, Screen Recorder Finder, Audit site, GrowlingEyes, Reese Reviews, Neurooz, MindMappr, Sessiono. No Vercel re-enabling, no DigitalOcean apps.
+
+### Notes and risks for Audrey
+- **Deck-to-Video Kit** has no hosted checkout yet. Its three buttons (Playbook $19, Full Kit $49, Done-for-you from $299) are `mailto:` order links to angelreporters@gmail.com, as published on the page itself. The video and preview images are served from Manus's storage, so they depend on that Manus site staying up. A copy of the page and media in Audrey's own repo would remove that dependency.
+- **Pretty Portions** on Netlify serves its page as `text/plain`, so a browser shows raw HTML there. The oaudrey subdomain serves it correctly as HTML.
+- **Cloudflare Web Analytics** is switched on for the whole oaudrey.com zone (and freedomangelcorps.com): Cloudflare injects a beacon into pages, including the apex and Peekabyss, which say "no tracking". It is a zone setting, not something these PRs added, so it was left alone. Audrey should decide whether to turn it off.
+- Origins are other people's hosting (GitHub Pages, Netlify, Manus). If one of those repos goes private or is deleted, its subdomain stops working.
+
+### Rollback
+- Backups: `/workspace/webforge/backup-oaudrey-pages-2026-11-28/` (previous `oaudrey-pages` Worker source and settings, all 13 DNS records, routes and domains before this work).
+- Subdomain: delete its custom domain under Workers > `oaudrey-app-paths` > Domains & Routes (its DNS record goes with it).
+- Apex: re-upload `oaudrey-pages.worker.js` from the backup folder.
