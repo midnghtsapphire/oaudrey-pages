@@ -16,6 +16,6 @@ Deploy note: the Cloudflare API connector could not get a Pages asset-upload tok
 
 ## OpenAudrey site (Cloudflare Pages)
 
-`openaudrey.oaudrey.com` is served by the `oaudrey-app-paths` Worker (`docs/oaudrey-app-paths/worker.js`), which proxies the Cloudflare Pages project `openaudrey-site` (`openaudrey-site.pages.dev`). The GitHub Pages copy of `midnghtsapphire/openaudrey` is unpublished on purpose (it showed a tax ID); do not re-enable it. The Worker still redacts tax-ID and server-detail patterns at the edge.
+OpenAudrey is served at `https://oaudrey.com/openaudrey/` by the `oaudrey-pages` Worker (`docs/oaudrey-pages/worker.js`), which proxies the Cloudflare Pages project `openaudrey-site` (`openaudrey-site.pages.dev`). The previous address, `openaudrey.oaudrey.com`, is kept and 301-redirects to that path (handled in `docs/oaudrey-app-paths/worker.js`). The GitHub Pages copy of `midnghtsapphire/openaudrey` is unpublished on purpose (it showed a tax ID); do not re-enable it. The Worker still redacts tax-ID and server-detail patterns at the edge.
 
 Build: `python3 scripts/build-openaudrey-site.py <openaudrey checkout> openaudrey-site` (needs `pandoc`; follows the repo's `_config.yml` exclude list, skips `docs/MANUS_HANDOFF.md`, and fails if the output contains an EIN-shaped string, an IP address, `127.0.0.1:3001` or the vault hostname). Then pack with `scripts/gen-pages-worker.py openaudrey-site <out>/_worker.js` and upload that as the only file of a Pages deployment, or use `wrangler pages deploy`.
