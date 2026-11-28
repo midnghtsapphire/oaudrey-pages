@@ -4,7 +4,7 @@
 // Plausible, etc.) are stripped. Cloudflare's free, cookieless Web Analytics is allowed (Audrey,
 // 2026-11-28: "Leave the Cloudflare visitor counter on" / "Both").
 // Deck-to-Video video and images are served from midnghtsapphire/oaudrey-pages media/deck-to-video
-// (commit 31606300061e8ae1c6ff78a77ee1614575bbccab), not from Manus storage. Buy buttons on the proxied HTML are unchanged.
+// (commit 31606300061e8ae1c6ff78a77ee1614575bbccab), not from Manus storage. Buy buttons: /checkout.json plus HTMLRewriter hrefs point Playbook and Full Kit at Gumroad; Done-for-you stays mailto.
 // Rollback: remove the custom domain(s) for this Worker (the DNS record goes with it).
 const GH = 'https://midnghtsapphire.github.io';
 const APPS = {
@@ -35,7 +35,93 @@ const MEDIA = new Set([
   'assets/icons/favicon-32.png',
   'assets/icons/apple-touch-icon.png',
 ]);
+
+// Checkout for deck-to-video.oaudrey.com. Keys must match a[data-checkout] / checkout.json
+// (the page does fetch('checkout.json') and sets a.href = cfg[a.dataset.checkout]).
+const DFY_MAILTO = 'mailto:angelreporters@gmail.com?subject=Done-for-you%20deck%20video%20(from%20%24299)&body=Hi%20Audrey%2C%0A%0AI%27d%20like%20a%20done-for-you%2030-second%20video%20from%20my%20deck.%20Deck%20link%3A%20%0ADeadline%3A%20%0A%0AThanks%2C';
+const CHECKOUT = {
+  playbook: 'https://angelreporter.gumroad.com/l/deck-to-video-playbook',
+  kit: 'https://angelreporter.gumroad.com/l/deck-to-video-kit',
+  dfy: DFY_MAILTO,
+};
+function checkoutJson() {
+  return new Response(JSON.stringify(CHECKOUT), {
+    headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' },
+  });
+}
+function rewriteProductOfferUrls(html) {
+  return html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g, (full, body) => {
+    try {
+      const data = JSON.parse(body);
+      if (data['@type'] === 'Product' && Array.isArray(data.offers)) {
+        for (const o of data.offers) {
+          if (o.name === 'Deck-to-Video Playbook (PDF)') o.url = CHECKOUT.playbook;
+          else if (o.name === 'Deck-to-Video Full Kit') o.url = CHECKOUT.kit;
+        }
+        return '<script type="application/ld+json">' + JSON.stringify(data) + '</script>';
+      }
+    } catch (e) { /* leave original */ }
+    return full;
+  });
+}
+function checkoutHtmlRewriter() {
+  return new HTMLRewriter()
+    .on('a[data-checkout="playbook"]', { element(el) { el.setAttribute('href', CHECKOUT.playbook); } })
+    .on('a[data-checkout="kit"]', { element(el) { el.setAttribute('href', CHECKOUT.kit); } });
+}
+
 const text = (s, status = 404) => new Response(s, { status, headers: { 'content-type': 'text/plain' } });
+
+// OpenAudrey redaction (Audrey, 2026-11-28: "Yes All" / hide tax ID and server details).
+// Do not hard-code the EIN. Also hide published hosting internals on this subdomain only.
+function isBlockedOpenAudreyPath(pathname) {
+  const p = pathname.toLowerCase();
+  return /^\/openaudrey\/(core|deploy)(\/|$)/.test(p)
+    || p === '/openaudrey/package.json'
+    || p === '/openaudrey/package-lock.json'
+    || p === '/openaudrey/audit-codebase.sh'
+    || p === '/openaudrey/baseline_audit.txt'
+    || p === '/openaudrey/docs/audit-codebase.sh';
+}
+function redactOpenAudrey(body) {
+  if (typeof body !== 'string') return body;
+  body = body.replace(/(Federal\s+EIN:?\s*)\d{2}-\d{7}/gi, '$1[redacted]');
+  body = body.replace(/(\bEIN:?\s*)\d{2}-\d{7}/g, '$1[redacted]');
+  body = body.replace(/\b\d{2}-\d{7}\b/g, '[redacted]');
+  body = body.replace(/vault\.freedomangelcorps\.com/gi, '[redacted]');
+  body = body.replace(/127\.0\.0\.1:3001/g, '[redacted]');
+  body = body.replace(/(?<![\d.])(?!127\.)(?!0\.)(?!255\.)(?:\d{1,3}\.){3}\d{1,3}(?![\d.])/g, '[redacted]');
+  body = body.replace(/<pre\b[^>]*>[\s\S]*?<\/pre>/gi, (block) => {
+    const plain = block.replace(/<[^>]+>/g, '');
+    if (/DROPLET|do-deploy|droplet-config|Vault droplet|Caddy\s*(?:\(TLS\))?\s*→\s*Vault|pm2 start/i.test(plain)) {
+      return '<pre>[Infrastructure details redacted]</pre>';
+    }
+    return block;
+  });
+  body = body.replace(/```[\s\S]*?```/g, (block) => {
+    if (/DROPLET|do-deploy|droplet-config|Vault droplet|Caddy\s*(?:\(TLS\))?\s*→\s*Vault|pm2 start|127\.0\.0\.1:3001/i.test(block)) {
+      return '```\n[Infrastructure details redacted]\n```';
+    }
+    return block;
+  });
+  body = body.replace(/<h2[^>]*id="control-server-api"[^>]*>[\s\S]*?(?=<h2\b)/i, '<h2 id="control-server-api">Control Server API</h2><p>[Internal control API details redacted]</p>\n');
+  body = body.replace(/deploy to the (?:core|MindMappr) droplet/gi, 'deploy automatically');
+  body = body.replace(/sync to the core droplet/gi, 'sync automatically');
+  body = body.replace(/Caddy \(TLS\) → Vault \(8200\)/g, '[redacted]');
+  body = body.replace(/Caddy → Vault :8200/g, '[redacted]');
+  body = body.replace(/Daily encrypted backups → DO\s*Spaces/gi, '[redacted]');
+  body = body.replace(/node deploy\/do-deploy\.js[^\n<]*/g, '[redacted]');
+  body = body.replace(/deploy\/do-deploy\.js/g, '[redacted]');
+  body = body.replace(/deploy\/droplet-config\.json/g, '[redacted]');
+  body = body.replace(/pm2 start[^\n<]*/g, '[redacted]');
+  body = body.replace(/pm2 save/g, '[redacted]');
+  body = body.replace(/pm2 startup/g, '[redacted]');
+  return body;
+}
+function isRedactableType(ct) {
+  return /text\/html|text\/plain|text\/markdown|text\/x-markdown|text\/xml|application\/json|application\/javascript|application\/xml|text\/javascript/.test(ct);
+}
+
 
 function robotsFor(host) {
   return 'User-agent: *\nAllow: /\nSitemap: https://' + host + '/sitemap.xml\n';
@@ -75,10 +161,12 @@ export default {
     if (u.pathname === '/robots.txt') return new Response(robotsFor(u.hostname), { headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=300' } });
     if (u.pathname === '/sitemap.xml') return new Response(sitemapFor(u.hostname, app), { headers: { 'content-type': 'application/xml; charset=utf-8', 'cache-control': 'public, max-age=300' } });
     if (u.hostname === 'deck-to-video.oaudrey.com') {
+      if (u.pathname === '/checkout.json') return checkoutJson();
       const local = await serveOurMedia(req, u);
       if (local) return local;
     }
     if ((app.block || []).some(p => u.pathname.startsWith(p))) return text('Not found');
+    if (u.hostname === 'openaudrey.oaudrey.com' && isBlockedOpenAudreyPath(u.pathname)) return text('Not found');
     if (app.home && u.pathname === '/') return Response.redirect('https://' + u.hostname + app.home + u.search, 302);
     let path = u.pathname;
     const p = app.prefix;
@@ -110,10 +198,23 @@ export default {
       html = html.split(app.origin + p + '/').join(publicBase + (app.keepPrefix ? p + '/' : '/'));
       html = html.split(app.origin + p).join(publicBase + (app.keepPrefix ? p : ''));
       if (!p) html = html.split(app.origin).join(publicBase);
-      if (u.hostname === 'deck-to-video.oaudrey.com') html = html.split(OG_MANUS).join(publicBase + '/manus-storage/yfLoUttebxQoIRae.jpg');
+      if (u.hostname === 'deck-to-video.oaudrey.com') {
+        html = html.split(OG_MANUS).join(publicBase + '/manus-storage/yfLoUttebxQoIRae.jpg');
+        html = rewriteProductOfferUrls(html);
+        out.delete('content-length'); out.delete('etag'); out.delete('content-range');
+        out.set('cache-control', 'public, max-age=300');
+        return checkoutHtmlRewriter().transform(new Response(html, { status: 200, headers: out }));
+      }
+      if (u.hostname === 'openaudrey.oaudrey.com') html = redactOpenAudrey(html);
       out.delete('content-length'); out.delete('etag'); out.delete('content-range');
       out.set('cache-control', 'public, max-age=300');
       return new Response(html, { status: 200, headers: out });
+    }
+    if (u.hostname === 'openaudrey.oaudrey.com' && req.method === 'GET' && r.status === 200 && isRedactableType(ct)) {
+      let body = redactOpenAudrey(await r.text());
+      out.delete('content-length'); out.delete('etag'); out.delete('content-range');
+      out.set('cache-control', 'public, max-age=300');
+      return new Response(body, { status: 200, headers: out });
     }
     return new Response(req.method === 'HEAD' ? null : r.body, { status: r.status, headers: out });
   },
